@@ -1,8 +1,6 @@
-# cardano_ADA
-Testnet cardano Send ADA 
-
-Setup and run local node cardano testnet
-
+ 
+ Setup and run local node cardano testnet 
+```
 ./cardano-node/cardano-node run                                  \
    --topology      ./testNet/confTestnet/testnet-topology.json   \
    --config        ./testNet/confTestnet/testnet-config.json     \
@@ -28,4 +26,5 @@ output
     "syncProgress": "100.00"
 }
 ----------------------------------
+```
 
