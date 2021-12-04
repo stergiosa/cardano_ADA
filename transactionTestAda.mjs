@@ -171,7 +171,6 @@ const submit = cmd.runSync([
     "--testnet-magic", CARDANO_NETWORK_MAGIC
 ].join(" "));
 
-console.log(submit);
 console.log(submit.data);
 
 if (submit.data) {isPaymentComplete = true;}
