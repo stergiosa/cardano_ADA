@@ -1,4 +1,4 @@
-// Author     : g.stergiosa[at]gmail.com  
+// Author     : g.stergiosa@gmail.com  
 // donations  : ADA: addr1qytd990epc3f2df475jmugcxys92ycd520xp9q85nms2kcl6z79mcesdmhsexl9jm9rnpctu0v7x3ef93uq8aqt5pwmq495ah3
 // run as     : ~$ node transactionTestAda.mjs
 // https://github.com/stergiosa/cardano_ADA
