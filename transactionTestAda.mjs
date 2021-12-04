@@ -1,5 +1,4 @@
-
-// Author     : g.stergiosa@gmail.com  
+// Author     : g.stergiosa[at]gmail.com  
 // donations  : ADA: addr1qytd990epc3f2df475jmugcxys92ycd520xp9q85nms2kcl6z79mcesdmhsexl9jm9rnpctu0v7x3ef93uq8aqt5pwmq495ah3
 // run as     : ~$ node transactionTestAda.mjs
 // https://github.com/stergiosa/cardano_ADA
@@ -13,7 +12,6 @@
 import * as fs from 'fs';
 // Please add this dependency using npm install node-cmd
 import cmd from 'node-cmd';
-import { exit } from 'process';
 import * as readlines_ync from 'readline-sync';
 
 // Path to the cardano-cli binary or use the global one
@@ -30,13 +28,11 @@ const walletAddress = fs.readFileSync(`${CARDANO_KEYS_DIR}/payment.addr`).toStri
 
 //DaedalusVallet.addr or payment2.addr
 const toWalletAddress = fs.readFileSync(`${CARDANO_KEYS_DIR}/payment2.addr`).toString();
-
 const skWalletAddress = fs.readFileSync(`${CARDANO_KEYS_DIR}/payment.skey`).toString();
 
 console.log("--------------------------------------------------------------------------------------");
 console.log("Send Ada\n  Receiver: " + toWalletAddress.trim());
 console.log("--------------------------------------------------------------------------------------");
-
 
 // Create protocol.json
 const protocol = cmd.runSync([
@@ -55,10 +51,8 @@ const rawUtxoTable = cmd.runSync([
     "--address", walletAddress
 ].join(" "));
 
-
 // Calculate total lovelace of the UTXO(s) inside the wallet address
 const utxoTableRows = rawUtxoTable.data.trim().split('\n');
-
 
 console.log("from: " + walletAddress.trim());
 console.log("\nA/A        ", utxoTableRows[0]);
@@ -74,7 +68,6 @@ console.log("Selected TxHash:A/A) : ", parseInt(txhash_num), utxoTableRows[parse
 
 let currenTxhash =  utxoTableRows[parseInt(txhash_num)+1].split(" ").filter(i => i);
 console.log("adaAmount",currenTxhash[2], " Lovelace, ", parseInt(currenTxhash[2]/ONE_M)," ADA");
-
 
 let totalLovelaceRecv = 0;
 let isPaymentComplete = false;
@@ -104,7 +97,6 @@ const outDraft = cmd.runSync([
     "--out-file" ,  (`${CARDANO_KEYS_DIR}/tx.draft`),
 ].join(" "));
 
-
 const fee_text = cmd.runSync([
     CARDANO_CLI_PATH,
     "transaction"     , "calculate-min-fee",
@@ -126,7 +118,6 @@ console.log("-------------------------------------------------------------------
 
 let send_amount_ada = readlines_ync.question("Amount to send: ");
 
-
 let send_amount      = send_amount_ada * ONE_M ;
 let change_send_back = tx_balance - fee - send_amount ;
 let change_send_back_ada = parseInt(change_send_back/ONE_M); 
@@ -134,17 +125,12 @@ let change_send_back_ada = parseInt(change_send_back/ONE_M);
 console.log("Send amount          : ", send_amount," Lovelace" );
 console.log("Change send_back     : ", change_send_back, " Lovelace");
 console.log("Change send back ADA : ", change_send_back_ada, " ADA");
-  
-
-
 
 const tip_text = cmd.runSync([
     CARDANO_CLI_PATH,
     "query", "tip",
     "--testnet-magic", CARDANO_NETWORK_MAGIC
 ].join(" "));
-
-
 
 let slotNo  =  (JSON.parse(tip_text.data)).slot;
 let ttl     = slotNo+200
@@ -155,7 +141,6 @@ console.log("Send        : ", send_amount_ada, " ADA");
 console.log("From address: ", walletAddress.trim() );
 console.log("To address  : ", toWalletAddress.trim());
 console.log("----------------------------------------------");
-
 
 const outDraft2 = cmd.runSync([
     CARDANO_CLI_PATH,
@@ -168,8 +153,6 @@ const outDraft2 = cmd.runSync([
     "--out-file" ,  (`${CARDANO_KEYS_DIR}/tx.raw`)
 ].join(" "));
 
-
-
 const Txsigned = cmd.runSync([
     CARDANO_CLI_PATH,
     "transaction"        , "sign",
@@ -178,8 +161,6 @@ const Txsigned = cmd.runSync([
     "--testnet-magic"    ,  CARDANO_NETWORK_MAGIC,
     "--out-file"         ,  (`${CARDANO_KEYS_DIR}/tx.signed`)
 ].join(" "));
-
-
 
 let last_message = readlines_ync.question("\n Last confirm press ctlr+c to cancel Tx)? \n");
 
@@ -190,10 +171,8 @@ const submit = cmd.runSync([
     "--testnet-magic", CARDANO_NETWORK_MAGIC
 ].join(" "));
 
-
 console.log(submit);
 console.log(submit.data);
 
 if (submit.data) {isPaymentComplete = true;}
-
 console.log(`Payment Complete: ${(isPaymentComplete ? "✅" : "❌")}`);
