@@ -11,7 +11,7 @@ Setup and run local node cardano testnet
    --host-addr 192.168.2.10                                      \
    --port 1337 
  ----------------------------------
- *** start RPC  in new terminal ***
+ start RPC  in new terminal 
 export CARDANO_NODE_SOCKET_PATH=./testNet/socketTestnet/node.socket
 ----------------------------------
 Print info node
